@@ -1,6 +1,6 @@
 # Проект "Комментарии"
 
-https://glebkaf.github.io/webdev-dom-homework/
+https://github.com/micha01-bit/Comments-feed-Dom/
 
 Верстка проекта создания интерактивных комментариев
 
