@@ -1,6 +1,7 @@
-import { comments } from './Comments.js'
+import { comments, updateComments } from './Comments.js'
 import { sanitizeHtml } from './sanitizeHtml.js'
 import { renderComments } from './renderComments.js'
+import { postComment } from './api.js'
 
 export const initLikeListeners = () => {
     const likeButtons = document.querySelectorAll('.like-button')
@@ -47,19 +48,28 @@ export const initAddCommentListener = () => {
             return
         }
 
-        const newComment = {
-            name: sanitizeHtml(name.value.trim()),
-            date: new Date(),
-            text: sanitizeHtml(text.value.trim()),
-            likes: 0,
-            isLaked: false,
-        }
+        // const newComment = {
+        //     name: sanitizeHtml(name.value.trim()),
+        //     date: new Date(),
+        //     text: sanitizeHtml(text.value.trim()),
+        //     likes: 0,
+        //     isLaked: false,
+        // } 
+         
+        postComment(sanitizeHtml(text.value.trim()), sanitizeHtml(name.value.trim())).then 
+        (
+            (data) => {  
+               updateComments(data)
+               renderComments()
+               name.value = ''
+               text.value = ''
+            },
+        )
 
-        comments.push(newComment)
+        // comments.push(newComment)
 
-        renderComments()
+        // renderComments()
 
-        name.value = ''
-        text.value = ''
+       
     })
 }
