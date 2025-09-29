@@ -40,13 +40,18 @@ export const initAddCommentListener = () => {
     const name = document.getElementById('name-input')
     const text = document.getElementById('text-input')
 
-    const addButton = document.querySelector('.add-form-button')
+    const addButton = document.querySelector('.add-form-button') 
 
-    addButton.addEventListener('click', () => {
-        if (!name.value || !text.value) {
-            console.error('заполните форму')
-            return
-        }
+        addButton.addEventListener('click', function () {
+         if ( name.value.trim() === '' || text.value.trim() === '') {
+             alert('Пожалуйста, заполните форму!')
+             return
+         }
+    // addButton.addEventListener('click', () => {
+    //     if (!name.value || !text.value) {
+    //         console.error('заполните форму')
+    //         return
+    //     }
 
         // const newComment = {
         //     name: sanitizeHtml(name.value.trim()),
