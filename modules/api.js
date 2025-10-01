@@ -2,9 +2,7 @@ const host = 'https://wedev-api.sky.pro/api/v1/evgeniy-bespalov'
 
 export const fetchComments = () => {
     return fetch(host + '/comments')
-        .then((res) => {
-            return res.json()
-        })
+        .then((res) => res.json())
         .then((responseData) => {
             const appComments = responseData.comments.map((comment) => {
                 return {
@@ -21,13 +19,11 @@ export const fetchComments = () => {
 
 export const postComment = (text, name) => {
     return fetch(host + '/comments', {
-        method: "POST", 
+        method: 'POST',
         body: JSON.stringify({
-            text, 
+            text,
             name,
-        })
-    }) 
-    .then(() => {
-        return fetchComments()
+        }),
     })
+    // Внутри этой функции не вызываем fetchComments
 }
