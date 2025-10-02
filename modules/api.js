@@ -25,5 +25,15 @@ export const postComment = (text, name) => {
             name,
         }),
     })
-    // Внутри этой функции не вызываем fetchComments
+    .then((response) => {
+        if (response.status === 500) {
+            throw new Error ('Ошибка сервера')  
+        }
+        if (response.status === 400) {
+            throw new Error ('Неверный запрос')
+        } 
+        if (response.status === 201) {
+            return response.json()
+        }
+    })
 }
