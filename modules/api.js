@@ -17,23 +17,26 @@ export const fetchComments = () => {
         })
 }
 
-export const postComment = (text, name) => {
+export const postComment = (text, name, retries = 3) => {
     return fetch(host + '/comments', {
         method: 'POST',
-        body: JSON.stringify({
-            text,
-            name,
-        }),
-    })
-    .then((response) => {
-        if (response.status === 500) {
-            throw new Error ('Ошибка сервера')  
+        body: JSON.stringify({ text, name,forceError: false, }),
+    }).then((response) => {
+        if (response.status === 500 && retries > 0) {
+            // Повторяем запрос после задержки
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(postComment(text, name, retries - 1));
+                }, 1000);
+            });
         }
         if (response.status === 400) {
-            throw new Error ('Неверный запрос')
-        } 
-        if (response.status === 201) {
-            return response.json()
+            throw new Error('Неверный запрос');
         }
-    })
-}
+        if (response.status === 201) {
+            return response.json();
+        }
+        // Для других статусов можно выбросить ошибку или обработать по-другому
+        throw new Error('Ошибка при отправке комментария');
+    });
+};

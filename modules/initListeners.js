@@ -22,14 +22,18 @@ function postCommentWithRetries(text, name, retries = 3) {
         }
     });
 }
-
-// Инициализация слушателя кнопки добавления комментария
+ 
 export const initAddCommentListener = () => {
     const name = document.getElementById('name-input');
     const text = document.getElementById('text-input');
     const addButton = document.querySelector('.add-form-button');
 
-    addButton.addEventListener('click', function () {
+    // Вспомогательная функция задержки
+    function delay(interval = 1000) {
+        return new Promise((resolve) => setTimeout(resolve, interval));
+    }
+
+    const handlePostClick = () => {
         if (name.value.trim() === '' || text.value.trim() === '') {
             alert('Пожалуйста, заполните форму!');
             return;
@@ -38,14 +42,11 @@ export const initAddCommentListener = () => {
         document.querySelector('.form-loading').style.display = 'block';
         document.querySelector('.add-form').style.display = 'none';
 
-        // Используем обёртку для повторных попыток
-        postCommentWithRetries(
+        postComment(
             sanitizeHtml(text.value.trim()),
-            sanitizeHtml(name.value.trim()),
-            3 // число попыток
+            sanitizeHtml(name.value.trim())
         )
             .then(() => {
-                // После успешного добавления комментария загружаем обновленный список
                 return fetchComments();
             })
             .then((commentsData) => {
@@ -56,15 +57,20 @@ export const initAddCommentListener = () => {
                 document.querySelector('.form-loading').style.display = 'none';
                 document.querySelector('.add-form').style.display = 'flex';
             })
-            .catch((error) => {
-                // Обработка ошибок
+            .catch(async (error) => {
+                if (error.message === 'Ошибка сервера') {
+                    // При ошибке 500 — ждем секунду и повторяем запрос
+                    await delay(1000);
+                    handlePostClick();
+                    return;
+                }
+
+                // При других ошибках показываем форму и выводим алерт
                 document.querySelector('.form-loading').style.display = 'none';
                 document.querySelector('.add-form').style.display = 'flex';
 
                 if (error.message === 'Failed to fetch') {
                     alert('Нет интернета. Попробуйте снова');
-                } else if (error.message === 'Ошибка сервера') {
-                    alert('Ошибка сервера. Попробуйте позже');
                 } else if (error.message === 'Неверный запрос') {
                     alert('Имя и комментарий должны быть не короче 3-х символов');
                     name.classList.add('-error');
@@ -77,7 +83,9 @@ export const initAddCommentListener = () => {
                     alert('Произошла неизвестная ошибка');
                 }
             });
-    });
+    };
+
+    addButton.addEventListener('click', handlePostClick);
 };
 
 // Остальной код, как был, без изменений
@@ -121,3 +129,4 @@ export const initReplyListeners = () => {
         });
     }
 };
+
