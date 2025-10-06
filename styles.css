@@ -1,6 +1,10 @@
 body {
     margin: 0;
-  }
+  } 
+   
+* {
+  box-sizing: border-box;
+} 
 
   .container {
     font-family: Helvetica;
@@ -108,40 +112,40 @@ body {
 
   .-active-like {
     background-image: url("data:image/svg+xml,%3Csvg width='22' height='20' viewBox='0 0 22 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15.95 0C14.036 0 12.199 0.882834 11 2.26703C9.801 0.882834 7.964 0 6.05 0C2.662 0 0 2.6267 0 5.99455C0 10.1035 3.74 13.4714 9.405 18.5613L11 20L12.595 18.5613C18.26 13.4714 22 10.1035 22 5.99455C22 2.6267 19.338 0 15.95 0Z' fill='%23BCEC30'/%3E%3C/svg%3E");
-  }
-
-  .add-form {
+  } 
+   
+ .add-form {
     padding: 20px;
     margin-top: 48px;
     display: flex;
     flex-direction: column;
-  }
-
-  .add-form-name,
+  }f
+   
+.add-form-name,
   .add-form-text {
     font-size: 16px;
     font-family: Helvetica;
     border-radius: 8px;
     border: none;
   }
+   
+.add-form-name {
+  width: 300px; 
+  padding: 11px 22px;
+ }
 
-  .add-form-name {
-    width: 300px;
-    padding: 11px 22px;
-  }
-
-  .add-form-text {
-    margin-top: 12px;
-    padding: 22px;
-    resize: none;
-  }
+ .add-form-text {
+  margin-top: 12px; 
+  padding: 22px; 
+  resize: none;
+ }
 
   .add-form-row {
     display: flex;
     justify-content: flex-end;
-  }
+  } 
 
-  .add-form-button {
+  .add-form-button { 
     margin-top: 24px;
     font-size: 24px;
     padding: 10px 20px;
@@ -157,4 +161,85 @@ body {
    
 .-error {
   border: 1px solid red;
-}
+} 
+ 
+
+  .link-login {
+    text-decoration: underline;
+  }
+
+  .add-form {
+    padding: 20px;
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+  }
+ 
+.add-form-name,
+  .add-form-text {
+    font-size: 16px;
+    font-family: Helvetica;
+    border-radius: 8px;
+    border: none;
+  }
+ 
+.add-form-name {
+    width: 540px;
+    padding: 11px 22px; 
+    margin-bottom: 12px;
+  }
+ 
+.add-form-name:read-only {
+    background-color: #d2ddd2; 
+    color: #363636;
+    font-weight: bold;
+  }
+ 
+.add-form-registry {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end; 
+    border: none; 
+    padding-left: 0;
+  } 
+ 
+.add-form-button-main { 
+    width: 100%;
+    margin-top: 24px;
+    font-size: 24px;
+    padding: 10px 20px;
+    background-color: #bcec30;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+ 
+.add-form-button-link { 
+   text-align: center; 
+   padding-top: 22px; 
+   color: white; 
+   cursor: pointer; 
+  border-bottom: inherit; 
+  } 
+   
+.add-form-button-exit { 
+    width: 50%;
+    margin-left: auto;
+    font-size: 12px;
+    background-color: #acb78b;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+  } 
+
+  .button-main {  
+    width: 100%;
+    margin-top: 24px;
+    font-size: 24px;
+    padding: 10px 20px;
+    background-color: #bcec30;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+  
