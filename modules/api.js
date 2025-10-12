@@ -5,13 +5,13 @@ export let token = ''
 
 export const setToken = (newToken) => {
     token = newToken
-} 
- 
+}
+
 export let name = ''
 
 export const setName = (newName) => {
     name = newName
-} 
+}
 
 export const fetchComments = () => {
     return fetch(host + '/comments')
@@ -32,9 +32,9 @@ export const fetchComments = () => {
 
 export const postComment = (text, name, retries = 3) => {
     return fetch(host + '/comments', {
-        method: 'POST', 
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ text, name, forceError: false }),
     }).then((response) => {
@@ -55,18 +55,35 @@ export const postComment = (text, name, retries = 3) => {
         // Для других статусов можно выбросить ошибку или обработать по-другому
         throw new Error('Ошибка при отправке комментария')
     })
-} 
- 
+}
+
 export const login = (login, password) => {
-     return fetch(authHost + '/login', {
-        method: 'POST', 
+    return fetch(authHost + '/login', {
+        method: 'POST',
         body: JSON.stringify({ login: login, password: password }),
     })
-} 
+}
 
 export const registration = (name, login, password) => {
-     return fetch(authHost, {
-        method: 'POST', 
-        body: JSON.stringify({name: name, login: login, password: password }),
+    return fetch(authHost, {
+        method: 'POST',
+        body: JSON.stringify({ name: name, login: login, password: password }),
     })
-} 
+}
+ 
+// api.js (дополнительно к существующему коду)
+export const saveUserData = (token, name) => {
+  localStorage.setItem('userToken', token);
+  localStorage.setItem('userName', name);
+};
+
+export const loadUserData = () => {
+  const token = localStorage.getItem('userToken');
+  const name = localStorage.getItem('userName');
+  return { token, name };
+};
+
+export const clearUserData = () => {
+  localStorage.removeItem('userToken');
+  localStorage.removeItem('userName');
+};

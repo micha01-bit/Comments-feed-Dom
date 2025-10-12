@@ -1,7 +1,7 @@
- import { comments } from './Comments.js'
-import { initAddCommentListener,initLikeListeners, initReplyListeners } from './initListeners.js'
-import { renderLogin } from './renderLogin.js' 
-import {name, token} from './api.js'
+ import { comments } from './Comments'
+import { initAddCommentListener,initLikeListeners, initReplyListeners } from './initListeners'
+import { renderLogin } from './renderLogin' 
+import {name, token} from './api'
 
 export const renderComments = () => {
     const container = document.querySelector('.container')

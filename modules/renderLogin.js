@@ -1,6 +1,6 @@
-import { fetchAndRenderComments } from "../index.js"
-import { login, setToken, setName } from "./api.js"
-import { renderRegistration } from "./renderRegistration.js"
+import { fetchAndRenderComments } from "../index"
+import { login, setToken, setName } from "./api"
+import { renderRegistration } from "./renderRegistration"
 
  export const renderLogin = () => {
     const container = document.querySelector('.container') 
@@ -39,17 +39,30 @@ import { renderRegistration } from "./renderRegistration.js"
      
   const loginEl = document.querySelector ('#login') 
   const passwordEl = document.querySelector ('#password')  
-  const submitButtonElEl = document.querySelector ('.button-main') 
+  const submitButtonEl = document.querySelector ('.button-main') 
    
-  submitButtonElEl.addEventListener('click', () =>{
-    login(loginEl.value, passwordEl.value) 
+submitButtonEl.addEventListener('click', () => {
+  login(loginEl.value, passwordEl.value)
     .then((response) => {
-       return response.json()
-    }) 
-    .then((data) => {
-      setToken(data.user.token) 
-      setName(data.user.name) 
-      fetchAndRenderComments()
+      if (!response.ok) {
+        return response.json().then(data => {
+          // выбрасываем ошибку с сообщением полученным с сервера
+          throw new Error(data.message || 'Ошибка при входе');
+        });
+      }
+      return response.json();
     })
-  })
-}
+    .then((data) => {
+      setToken(data.user.token);
+      setName(data.user.name); 
+       saveUserData(data.user.token, data.user.name); // добавляем сохранение 
+      fetchAndRenderComments();
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}); 
+
+} 
+
+    

@@ -1,9 +1,9 @@
-import { fetchAndRenderComments } from "../index.js"
-import { setToken, setName, registration } from "./api.js"
-import { renderLogin } from "./renderLogin.js"
+import { fetchAndRenderComments } from '../index'
+import { setToken, setName, registration } from './api'
+import { renderLogin } from './renderLogin'
 
- export const renderRegistration = () => {
-    const container = document.querySelector('.container') 
+export const renderRegistration = () => {
+    const container = document.querySelector('.container')
     const loginHtml = ` 
     <section class="add-form"> 
     <h1>Форма регистрации</h1> 
@@ -36,28 +36,38 @@ import { renderLogin } from "./renderLogin.js"
     </u> 
     </fieldset> 
     </section>  
-    ` 
-     
-  container.innerHTML = loginHtml  
-   
-  document.querySelector('.entry').addEventListener('click', () => {
-    renderLogin()
-  })
-   
-  const nameEl = document.querySelector ('#name')
-  const loginEl = document.querySelector ('#login') 
-  const passwordEl = document.querySelector ('#password')  
-  const submitButtonElEl = document.querySelector ('.button-main') 
-   
-  submitButtonElEl.addEventListener('click', () =>{
-    registration(nameEl.value, loginEl.value, passwordEl.value) 
-    .then((response) => {
-       return response.json()
-    }) 
-    .then((data) => {
-      setToken(data.user.token) 
-      setName(data.user.name) 
-      fetchAndRenderComments()
+    `
+
+    container.innerHTML = loginHtml
+
+    document.querySelector('.entry').addEventListener('click', () => {
+        renderLogin()
     })
-  })
+
+    const nameEl = document.querySelector('#name')
+    const loginEl = document.querySelector('#login')
+    const passwordEl = document.querySelector('#password')
+    const submitButtonEl = document.querySelector('.button-main')
+
+    submitButtonEl.addEventListener('click', () => {
+        registration(nameEl.value, loginEl.value, passwordEl.value)
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((data) => {
+                        throw new Error(
+                            data.message || 'Ошибка при регистрации',
+                        )
+                    })
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setToken(data.user.token)
+                setName(data.user.name)
+                fetchAndRenderComments()
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+    })
 }

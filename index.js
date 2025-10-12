@@ -1,6 +1,8 @@
-import { fetchComments } from './modules/api.js' 
-import { updateComments } from './modules/Comments.js' 
-import { renderComments } from './modules/renderComments.js'
+import { fetchComments } from './modules/api' 
+import { updateComments } from './modules/Comments' 
+import { renderComments } from './modules/renderComments' 
+import { loadUserData } from './api.js'; 
+import { initUserSession } from './api.js'; 
  
 export const fetchAndRenderComments = (isFirstLoading) => { 
    
@@ -13,7 +15,18 @@ export const fetchAndRenderComments = (isFirstLoading) => {
 
   renderComments()
 })
+} 
+
+export const initUserSession = () => {
+  const { token, name } = loadUserData();
+  if (token && name) {
+    // Асинхронно произведите любые необходимые действия
+    // Например, сохранить их в глобальном состоянии, если используете
+    setToken(token);
+    setName(name);
+  }
 }
 
+initUserSession(); 
 
 fetchAndRenderComments (true)

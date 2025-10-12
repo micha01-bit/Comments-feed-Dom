@@ -1,10 +1,21 @@
-{
-  "devDependencies": {
-    "@eslint/js": "^9.35.0",
-    "eslint": "^9.35.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.4.0",
-    "prettier": "^3.6.2"
-  }
-}
+{"name": "modules", 
+"version":"1.0.0",  
+"description":"", 
+"main":"index.js", 
+"scripts":{"dev":"webpack --mode development --watch", 
+"build":"webpack --mode production"}, 
+
+"keywords":[], 
+"author":"", 
+"license":"ISC", 
+"devDependencies": 
+{"@eslint/js":"^9.35.0", 
+"eslint":"^9.35.0", 
+"eslint-config-prettier":"^10.1.8", 
+"eslint-plugin-prettier":"^5.5.4", 
+"globals":"^16.4.0", 
+"prettier":"^3.6.2", 
+"webpack":"^5.102.1", 
+"webpack-cli":"^6.0.1"}, 
+"dependencies": 
+{"date":"^2.0.6","fns":"^1.0.0"}}

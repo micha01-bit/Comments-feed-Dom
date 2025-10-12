@@ -165,8 +165,9 @@ body {
  
 
   .link-login {
-    text-decoration: underline;
-  }
+    text-decoration: underline; 
+    cursor: pointer;
+  }  
 
   .add-form {
     padding: 20px;

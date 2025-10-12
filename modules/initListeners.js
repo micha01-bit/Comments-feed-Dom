@@ -1,7 +1,7 @@
-import { comments, updateComments } from './Comments.js'
-import { sanitizeHtml } from './sanitizeHtml.js'
-import { renderComments } from './renderComments.js'
-import { postComment, fetchComments } from './api.js'
+import { comments, updateComments } from './Comments'
+import { sanitizeHtml } from './sanitizeHtml'
+import { renderComments } from './renderComments'
+import { postComment, fetchComments } from './api' 
 
 // Вспомогательная функция задержки
 function delay(interval = 300) {
@@ -11,7 +11,7 @@ function delay(interval = 300) {
 }
 
 // Обёртка для postComment с автоматическими повторяющимися попытками
-function postCommentWithRetries(text, name, retries = 3) {
+export function postCommentWithRetries(text, name, retries = 3) {
     return postComment(text, name).catch(async (error) => {
         if (error.message === 'Ошибка сервера' && retries > 0) {
             console.log(
@@ -28,14 +28,34 @@ function postCommentWithRetries(text, name, retries = 3) {
 export const initAddCommentListener = () => {
     const name = document.getElementById('name-input')
     const text = document.getElementById('text-input')
-    const addButton = document.querySelector('.add-form-button')
+    const addButton = document.querySelector('.add-form-button') 
+     
+    // создадим элемент для сообщений (если еще нет)
+    let errorContainer = document.querySelector('.error-message')
+    if (!errorContainer) {
+        errorContainer = document.createElement('div')
+        errorContainer.className = 'error-message'
+        document.querySelector('.add-form').prepend(errorContainer)
+    }
 
-    // Вспомогательная функция задержки
+    // Вспомогательная функция для отображения ошибок
+    const showError = (message) => {
+        errorContainer.textContent = message
+        errorContainer.style.color = 'red'
+    }
+
+    // Очистка ошибок
+    const clearError = () => {
+        errorContainer.textContent = ''
+    } 
+     
+     // Вспомогательная функция задержки
     function delay(interval = 1000)  {
          return new Promise((resolve) => setTimeout(resolve, interval))
     }
 
     const handlePostClick = () => {
+        clearError()
         if (name.value.trim() === '' || text.value.trim() === '') {
             alert('Пожалуйста, заполните форму!')
             return
